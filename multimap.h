@@ -259,6 +259,7 @@ void Multimap<K, V>::Insert(const K &key, const V &value) {
     root->color = BLACK;
 }
 
+// insert function updated: pushes value into the list associated to the key instead of throwing a runtime error.
 template <typename K, typename V>
 void Multimap<K, V>::Insert(std::unique_ptr<Node> &n, const K &key, const V &value) {
         if (!n)
@@ -267,8 +268,8 @@ void Multimap<K, V>::Insert(std::unique_ptr<Node> &n, const K &key, const V &val
             Insert(n->left, key, value);
         else if (key > n->key)
             Insert(n->right, key, value);
-        else
-            throw std::runtime_error("Key already inserted");
+        else    // changes maded here
+            n -> values.push_back (value);
 
   FixUp(n);
 }
