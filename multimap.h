@@ -35,6 +35,11 @@ class Multimap {
         bool color;
         std::unique_ptr<Node> left;
         std::unique_ptr<Node> right;
+
+        Node(K Key, V value, bool col)
+            : key(Key), color(col), left(nullptr), right(nullptr) {
+            values.push_back(value);
+        }
     };
 
     std::unique_ptr<Node> root;
@@ -234,14 +239,14 @@ void Multimap<K, V>::Remove(std::unique_ptr<Node> &n, const K &key) {
             if (key == n->key) {
                 // added change: pop first element in list containg values if size is greater than 1
                 if (n -> values.size() > 1) {
-                    n -> values.pop_front();
+                    n -> values.erase(n -> values.begin());
                     return;
                 }
                 // Find min node in the right subtree
                 Node *n_min = Min(n->right.get());
                 // Copy content from min node
                 n->key = n_min->key;
-                n->value = n_min->value;
+                n->values[0] = n_min->values[0];
                 // Delete min node recursively
                 DeleteMin(n->right);
             } else {
@@ -249,7 +254,7 @@ void Multimap<K, V>::Remove(std::unique_ptr<Node> &n, const K &key) {
             }
         }
 
-  FixUp(n);
+    FixUp(n);
 }
 
 template <typename K, typename V>
@@ -262,14 +267,14 @@ void Multimap<K, V>::Insert(const K &key, const V &value) {
 // insert function updated: pushes value into the list associated to the key instead of throwing a runtime error.
 template <typename K, typename V>
 void Multimap<K, V>::Insert(std::unique_ptr<Node> &n, const K &key, const V &value) {
-        if (!n)
-            n = std::unique_ptr<Node>(new Node(key, value, RED));
-        else if (key < n->key)
-            Insert(n->left, key, value);
-        else if (key > n->key)
-            Insert(n->right, key, value);
-        else    // changes maded here
-            n -> values.push_back (value);
+    if (!n)
+        n = std::unique_ptr<Node>(new Node(key, value, RED));
+    else if (key < n->key)
+        Insert(n->left, key, value);
+    else if (key > n->key)
+        Insert(n->right, key, value);
+    else    // changes maded here
+        n -> values.push_back (value);
 
   FixUp(n);
 }
@@ -284,7 +289,10 @@ template <typename K, typename V>
 void Multimap<K, V>::Print(Node *n) {
     if (!n) return;
     Print(n->left.get());
-    std::cout << "<" << n->key << "," << n->values << "> ";
+    std::cout << "<" << n->key << ": ";
+    for (int i = 0; i < n->values.size(); i++)
+        std::cout << n -> values [i] << ",";
+    std::cout << "> ";
     Print(n->right.get());
 }
 
