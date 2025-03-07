@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
@@ -99,6 +100,8 @@ bool Multimap<K, V>::Contains(const K &key) {
 
 template <typename K, typename V>
 const K& Multimap<K, V>::Max(void) {
+    if (root == nullptr)
+        throw std::runtime_error ("Empty Multimap!");
     Node *n = root.get();
     while (n->right) n = n->right.get();
     return n->key;
@@ -106,6 +109,8 @@ const K& Multimap<K, V>::Max(void) {
 
 template <typename K, typename V>
 const K& Multimap<K, V>::Min(void) {
+    if (root == nullptr)
+        throw std::runtime_error ("Empty Multimap!");
     return Min(root.get())->key;
 }
 
