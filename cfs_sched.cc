@@ -1,9 +1,9 @@
 #include <iostream>
 #include <fstream>
-#include <map>
 #include <queue>
 #include <vector>
 #include <algorithm>
+#include "multimap.h"
 
 using namespace std;
 
@@ -30,11 +30,11 @@ public:
 
 class CFSScheduler {
 private:
-    multimap<unsigned int, Task*> task_tree; 
-    queue<Task*> arrival_queue;            
-    unsigned int min_vruntime;                
-    unsigned int tick;                        
-    Task* running_task;                     
+    Multimap<unsigned int, Task*> task_tree;
+    queue<Task*> arrival_queue;
+    unsigned int min_vruntime;
+    unsigned int tick;
+    Task* running_task;
 
 public:
     CFSScheduler() : min_vruntime(0), tick(0), running_task(nullptr) {}
@@ -44,7 +44,7 @@ public:
     }
 
     void run() {
-        while (!task_tree.empty() || !arrival_queue.empty() || running_task != nullptr) {
+        while (!(task_tree.Size() == 0) || !arrival_queue.empty() || running_task != nullptr) {
             processArrivals();
             scheduleTask();
             tick++;
@@ -66,20 +66,24 @@ public:
         });
 
         for (Task* t : temp_tasks) {
-            task_tree.insert({t->vruntime, t});
+            task_tree.Insert(t->vruntime, t);
         }
     }
 
     void scheduleTask() {
-        if (!task_tree.empty()) {
-            auto best_task = task_tree.begin();
-            if (running_task == nullptr || best_task->first < running_task->vruntime) {
-                if (running_task != nullptr) {
-                    task_tree.insert({running_task->vruntime, running_task});
+        if (!(task_tree.Size() == 0)) {
+            unsigned int best_task_key = task_tree.Min();  // Min() returns the smallest key
+            Task* best_task = task_tree.Get(best_task_key); // Get() retrieves the task associated with that key
+
+            if (best_task != nullptr) {
+                if (running_task == nullptr || best_task_key < running_task->vruntime) {
+                    if (running_task != nullptr) {
+                        task_tree.Insert(running_task->vruntime, running_task);
+                    }
+                    running_task = best_task;
+                    task_tree.Remove(best_task_key);  // Remove using the key
+                    min_vruntime = running_task->vruntime;
                 }
-                running_task = best_task->second;
-                task_tree.erase(best_task);
-                min_vruntime = running_task->vruntime;
             }
         }
 
@@ -90,7 +94,7 @@ public:
 
         running_task->run();
 
-        cout << tick << " [" << task_tree.size() + 1 << "]: " << running_task->id;
+        cout << tick << " [" << task_tree.Size() + 1 << "]: " << running_task->id;
         if (running_task->isComplete()) {
             cout << "*";
             delete running_task;
