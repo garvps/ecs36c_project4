@@ -1,20 +1,20 @@
 #include <gtest/gtest.h>
 #include "multimap.h"
 
-// Test inserting multiple values for the same key
-TEST(MultimapTest, InsertAndRetrieve) {
+//inserting multiple values for the same key
+TEST(MultimapTest, InsertAndRetrieve) { 
     Multimap<int, char> mmap;
 
     mmap.Insert(1, 'a');
     mmap.Insert(1, 'b');
     mmap.Insert(1, 'a');
 
-    EXPECT_EQ(mmap.Get(1), 'a');  // Ensure retrieval of first inserted value
+    EXPECT_EQ(mmap.Get(1), 'a'); 
     EXPECT_TRUE(mmap.Contains(1)); 
     EXPECT_EQ(mmap.Size(), 3);  
 }
 
-// Test completely removing a key
+//removing a key
 TEST(MultimapTest, RemoveKeyCompletely) {
     Multimap<int, char> mmap;
 
@@ -25,10 +25,10 @@ TEST(MultimapTest, RemoveKeyCompletely) {
     mmap.Remove(2);
 
     EXPECT_FALSE(mmap.Contains(2));  
-    EXPECT_THROW(mmap.Get(2), std::runtime_error);  // Accessing removed key should throw error
+    EXPECT_THROW(mmap.Get(2), std::runtime_error); 
 }
 
-// Test removing a single value from a key with multiple values
+// removing single value from a key w/ multiple values
 TEST(MultimapTest, RemoveSingleValue) {
     Multimap<int, char> mmap;
 
@@ -36,7 +36,7 @@ TEST(MultimapTest, RemoveSingleValue) {
     mmap.Insert(3, 'y');
     mmap.Insert(3, 'z');  
 
-    mmap.Remove(3);  // Removes first 'z'
+    mmap.Remove(3);
     EXPECT_EQ(mmap.Get(3), 'y');  
 
     mmap.Remove(3);  
@@ -46,7 +46,7 @@ TEST(MultimapTest, RemoveSingleValue) {
     EXPECT_FALSE(mmap.Contains(3));  
 }
 
-// Test size updates after insertions and removals
+// testing the size after insertions and removals
 TEST(MultimapTest, SizeAfterOperations) {
     Multimap<int, char> mmap;
 
@@ -66,7 +66,7 @@ TEST(MultimapTest, SizeAfterOperations) {
     EXPECT_EQ(mmap.Size(), 0);
 }
 
-// Test Contains() method functionality
+//testing if contains() works
 TEST(MultimapTest, Contains) {
     Multimap<int, char> mmap;
 
@@ -77,7 +77,7 @@ TEST(MultimapTest, Contains) {
     EXPECT_FALSE(mmap.Contains(7));  
 }
 
-// Test Min and Max key retrieval
+//testing if max and min works
 TEST(MultimapTest, MaxAndMin) {
     Multimap<int, char> mmap;
 
@@ -89,7 +89,7 @@ TEST(MultimapTest, MaxAndMin) {
     EXPECT_EQ(mmap.Min(), 1);
 }
 
-// Test operations on an empty multimap
+// testing on empty multimap
 TEST(MultimapTest, EmptyMultimap) {
     Multimap<int, char> mmap;
 
@@ -104,7 +104,7 @@ TEST(MultimapTest, EmptyMultimap) {
     }
 }
 
-// Test inserting distinct keys
+// inserting distinct keys
 TEST(MultimapTest, InsertMultipleDistinctKeys) {
     Multimap<int, char> mmap;
 
@@ -121,7 +121,7 @@ TEST(MultimapTest, InsertMultipleDistinctKeys) {
     EXPECT_TRUE(mmap.Contains(3));
 }
 
-// Test removing a non-existent key
+// removing a non-existent key
 TEST(MultimapTest, RemoveNonExistentKey) {
     Multimap<int, char> mmap;
 
@@ -130,7 +130,7 @@ TEST(MultimapTest, RemoveNonExistentKey) {
     EXPECT_EQ(mmap.Size(), 0);
 }
 
-// Ensure a key is removed after all its values are deleted
+// testing to see that a key is removed when all its values are deleted 
 TEST(MultimapTest, ContainsAfterRemovingAllValues) {
     Multimap<int, char> mmap;
 
@@ -146,7 +146,7 @@ TEST(MultimapTest, ContainsAfterRemovingAllValues) {
     EXPECT_EQ(mmap.Size(), 0);
 }
 
-// Ensure Max() and Min() throw exceptions on an empty multimap
+// max and min on empty multimap
 TEST(MultimapTest, MaxAndMinOnEmptyTree) {
     Multimap<int, char> mmap;
 
@@ -155,7 +155,7 @@ TEST(MultimapTest, MaxAndMinOnEmptyTree) {
     EXPECT_THROW(mmap.Min(), std::runtime_error);
 }
 
-// Test removing a key with no right child
+//removing a key with no right child
 TEST(MultimapTest, RemoveKeyWithNoRightChild) {
     Multimap<int, char> mmap;
 
@@ -167,7 +167,7 @@ TEST(MultimapTest, RemoveKeyWithNoRightChild) {
     EXPECT_EQ(mmap.Size(), 1);
 }
 
-// Test inserting multiple values for the same key and retrieving them
+// inserting multiple values for the same key and then retrieving them
 TEST(MultimapTest, InsertAndRetrieveMultipleValues) {
     Multimap<int, char> mmap;
 
@@ -184,7 +184,7 @@ TEST(MultimapTest, InsertAndRetrieveMultipleValues) {
     EXPECT_EQ(mmap.Get(7), 'z');
 }
 
-// Test removing values from a key until one remains
+//removing values from a key until one value remains on it 
 TEST(MultimapTest, RemoveUntilOneValueRemains) {
     Multimap<int, char> mmap;
 
@@ -199,7 +199,7 @@ TEST(MultimapTest, RemoveUntilOneValueRemains) {
     EXPECT_TRUE(mmap.Contains(8));
 }
 
-// Test reinserting a key after removing all its values
+// inserting a key back after removing all its values
 TEST(MultimapTest, ReinsertAfterRemoval) {
     Multimap<int, char> mmap;
 
