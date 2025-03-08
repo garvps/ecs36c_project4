@@ -51,29 +51,30 @@ public:
         }
     }
 
-    void processArrivals() {
-        vector<Task*> temp_tasks;
+void processArrivals() {
+    vector<Task*> arrivingTasks;
 
-        while (!arrival_queue.empty() && arrival_queue.front()->start_time == tick) {
-            Task* new_task = arrival_queue.front();
-            arrival_queue.pop();
-            new_task->vruntime = min_vruntime;
-            temp_tasks.push_back(new_task);
-        }
-
-        sort(temp_tasks.begin(), temp_tasks.end(), [](Task* a, Task* b) {
-            return a->id < b->id;
-        });
-
-        for (Task* t : temp_tasks) {
-            task_tree.Insert(t->vruntime, t);
-        }
+     while (!arrival_queue.empty() && arrival_queue.front()->start_time == tick) {
+        Task* currentTask = arrival_queue.front();
+        arrival_queue.pop();
+        currentTask->vruntime = min_vruntime;
+        arrivingTasks.push_back(currentTask);
     }
+
+    sort(arrivingTasks.begin(), arrivingTasks.end(), [](const Task* t1, const Task* t2) {
+        return t1->id < t2->id;
+    });
+
+    for (Task* task : arrivingTasks) {
+        task_tree.Insert(task->vruntime, task);
+    }
+}
+
 
     void scheduleTask() {
         if (!(task_tree.Size() == 0)) {
-            unsigned int best_task_key = task_tree.Min();  // Min() returns the smallest key
-            Task* best_task = task_tree.Get(best_task_key); // Get() retrieves the task associated with that key
+            unsigned int best_task_key = task_tree.Min();
+            Task* best_task = task_tree.Get(best_task_key);
 
             if (best_task != nullptr) {
                 if (running_task == nullptr || best_task_key < running_task->vruntime) {
@@ -81,7 +82,7 @@ public:
                         task_tree.Insert(running_task->vruntime, running_task);
                     }
                     running_task = best_task;
-                    task_tree.Remove(best_task_key);  // Remove using the key
+                    task_tree.Remove(best_task_key);
                     min_vruntime = running_task->vruntime;
                 }
             }
