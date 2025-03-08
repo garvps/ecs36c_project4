@@ -51,7 +51,7 @@ public:
         }
     }
 
-void processArrivals() {
+    void processArrivals() {
     vector<Task*> arrivingTasks;
 
      while (!arrival_queue.empty() && arrival_queue.front()->start_time == tick) {
