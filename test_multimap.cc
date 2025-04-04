@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "multimap.h"
 
-//inserting multiple values for the same key
+// inserting multiple values for the same key
 TEST(MultimapTest, InsertAndRetrieve) { 
     Multimap<int, char> mmap;
 
