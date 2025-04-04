@@ -14,7 +14,7 @@ TEST(MultimapTest, InsertAndRetrieve) {
     EXPECT_EQ(mmap.Size(), 3);  
 }
 
-//removing a key
+// removing a key
 TEST(MultimapTest, RemoveKeyCompletely) {
     Multimap<int, char> mmap;
 
