@@ -12,7 +12,7 @@ This project implements a custom **self-balancing red-black multimap** in C++, a
 
 ---
 
-## Multimap Features
+## Multimap Features (`multimap.h`)
 
 - **Multiple values per key** using `std::vector<V>`.
 - **Self-balancing** red-black tree implementation.
@@ -33,7 +33,7 @@ This project implements a custom **self-balancing red-black multimap** in C++, a
 
 ---
 
-## Running Tests
+## Running Tests (`test_multimap.cc`)
 
 Make sure you have [Google Test](https://github.com/google/googletest) installed.
 
