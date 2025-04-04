@@ -4,7 +4,7 @@ This project implements a custom **self-balancing red-black multimap** in C++, a
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 - `multimap.h`: Implementation of a templated red-black **Multimap** supporting multiple values per key.
 - `test_multimap.cc`: Google Test cases to validate multimap functionality.
